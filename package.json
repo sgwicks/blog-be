@@ -10,7 +10,7 @@
   "devDependencies": {},
   "scripts": {
     "test": "jest test",
-    "seed-test": "NODE.ENV=test knex seed:run",
+    "seed-test": "knex seed:run",
     "migrate": "knex migrate:latest",
     "rollback": "knex migrate:rollback"
   },
