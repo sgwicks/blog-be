@@ -11,8 +11,8 @@
   "scripts": {
     "test": "jest test",
     "seed-test": "NODE.ENV=test knex seed:run",
-    "migrate": "knex migrate:up",
-    "rollback": "knex migrate:down"
+    "migrate": "knex migrate:latest",
+    "rollback": "knex migrate:rollback"
   },
   "repository": {
     "type": "git",
