@@ -1,0 +1,27 @@
+{
+  "name": "blog-be",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "knex": "^0.21.1",
+    "pg": "^8.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "jest test",
+    "seed-test": "NODE.ENV=test knex seed:run",
+    "migrate": "knex migrate:up",
+    "rollback": "knex migrate:down"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sgwicks/blog-be.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sgwicks/blog-be/issues"
+  },
+  "homepage": "https://github.com/sgwicks/blog-be#readme"
+}
