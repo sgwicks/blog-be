@@ -5,7 +5,7 @@ exports.up = function(knex) {
       articlesTable.string('title').notNullable().unique();
       articlesTable.text('body').notNullable();
       articlesTable.text('blurb');
-      articlesTable.string('topic').references('topics.slug')
+      articlesTable.string('topic').references('topics.topic')
       articlesTable.timestamp('date').defaultTo(knex.fn.now())
   })
 };
