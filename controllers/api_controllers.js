@@ -1,0 +1,1 @@
+exports.getApi = (req, res) => res.send('In the API controller')
