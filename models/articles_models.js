@@ -1,3 +1,7 @@
+const connection = require('../db/connection')
 
-
-exports.fetchAllArticles = () => 'In the articles model'
+exports.fetchAllArticles = () => {
+    return connection('articles')
+        .select('*')
+        .then(articles => articles)
+}
