@@ -5,3 +5,7 @@ exports.fetchAllArticles = () => {
         .select('*')
         .then(articles => articles)
 }
+
+exports.fetchSingleArticle = () => {
+    return 'in the articles by id model'
+}
