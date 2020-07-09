@@ -7,5 +7,7 @@ exports.getAllArticles = (req, res) => {
 }
 
 exports.getArticleById = (req, res) => {
-    return res.status(200).send(fetchSingleArticle())
+    const { article_id } = req.params
+    return fetchSingleArticle(article_id)
+        .then(article => res.status(200).send({ article }))
 }
