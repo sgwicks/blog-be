@@ -1,8 +1,8 @@
-const user = require('./user')
+const user = require('./user.js')
 
 const dbConfig = {
   client: 'pg',
-  connection :{
+  connection: {
     ...user,
     database: 'blog',
   },
