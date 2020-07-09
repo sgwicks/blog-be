@@ -1,5 +1,4 @@
 const connection = require('../db/connection')
-const articlesRouter = require('../routers/articles')
 
 exports.fetchAllArticles = () => {
     return connection('articles')
