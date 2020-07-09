@@ -1,0 +1,1 @@
+exports.fetchApi = () => 'In the API model'

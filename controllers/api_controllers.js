@@ -1,1 +1,3 @@
-exports.getApi = (req, res) => res.send('In the API controller')
+const { fetchApi } = require('../models/api_models')
+
+exports.getApi = (req, res) => res.send(fetchApi())
