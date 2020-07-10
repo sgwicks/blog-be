@@ -16,8 +16,9 @@
   "scripts": {
     "test": "NODE_ENV=test mocha",
     "seed-test": "NODE_ENV=test knex seed:run",
-    "migrate-test": "NODE_ENV=test knex migrate:latest",
-    "rollback-test": "NODE_ENV=test knex migrate:rollback",
+    "migrate": "knex migrate:latest",
+    "rollback": "knex migrate:rollback",
+    "seed-dev": "knex seed:run",
     "seed-prod": "NODE_ENV=production knex seed:run",
     "migrate-prod": "NODE_ENV=production knex migrate:latest",
     "rollback-prod": "NODE_ENV=production knex migrate:rollback"
