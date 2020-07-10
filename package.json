@@ -15,9 +15,12 @@
   },
   "scripts": {
     "test": "mocha",
-    "seed-test": "knex seed:run",
-    "migrate": "knex migrate:latest",
-    "rollback": "knex migrate:rollback"
+    "seed-test": "NODE_ENV=test knex seed:run",
+    "migrate-test": "NODE_ENV=test knex migrate:latest",
+    "rollback-test": "NODE_ENV=test knex migrate:rollback",
+    "seed-prod": "NODE_ENV=production knex seed:run",
+    "migrate-prod": "NODE_ENV=production knex migrate:latest",
+    "rollback-prod": "NODE_ENV=production knex migrate:rollback"
   },
   "repository": {
     "type": "git",

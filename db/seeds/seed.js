@@ -1,4 +1,7 @@
-const data = require('../data/test-data')
+const {
+  topicData,
+  articleData
+} = require('../data/index.js')
 
 exports.seed = function (knex) {
   return knex.migrate.rollback()
@@ -6,9 +9,9 @@ exports.seed = function (knex) {
       return knex.migrate.latest()
     })
     .then(() => {
-      return knex('topics').insert({ topic: 'test', description: 'test blogs' })
+      return knex('topics').insert(topicData)
     })
     .then(() => {
-      return knex('articles').insert(data)
+      return knex('articles').insert(articleData)
     })
 };
