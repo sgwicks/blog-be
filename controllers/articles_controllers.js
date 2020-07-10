@@ -9,5 +9,5 @@ exports.getAllArticles = (req, res) => {
 exports.getArticleById = (req, res) => {
     const { article_id } = req.params
     return fetchSingleArticle(article_id)
-        .then(article => res.status(200).send({ article }))
+        .then(([article]) => res.status(200).send({ article }))
 }

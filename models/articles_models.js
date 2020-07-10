@@ -2,7 +2,13 @@ const connection = require('../db/connection')
 
 exports.fetchAllArticles = () => {
     return connection('articles')
-        .select()
+        .select([
+            'articles.article_id',
+            'articles.title',
+            'articles.blurb',
+            'articles.topic',
+            'articles.date'
+        ])
         .then(articles => articles)
 }
 
