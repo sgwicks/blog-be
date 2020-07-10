@@ -80,4 +80,21 @@ describe('/api', () => {
             })
         })
     })
+    describe.only('/topics', () => {
+        describe('GET:', () => {
+            it('Returns a list of all topics', () => {
+                return request(app)
+                    .get('/api/topics')
+                    .expect(200)
+                    .then(({ body: { topics } }) => {
+                        expect(topics).to.be.an('array')
+                        expect(topics).to.have.length(1)
+                        expect(topics[0]).to.eql({
+                            topic: 'test',
+                            description: 'test blogs'
+                        })
+                    })
+            })
+        })
+    })
 })
