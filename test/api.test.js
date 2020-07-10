@@ -52,7 +52,7 @@ describe('/api', () => {
             })
         })
     })
-    describe.only('/articles/:article_id', () => {
+    describe('/articles/:article_id', () => {
         describe('GET:', () => {
             it('Returns an article with all keys', () => {
                 return request(app)
