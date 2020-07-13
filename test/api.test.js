@@ -51,6 +51,58 @@ describe('/api', () => {
                     })
             })
         })
+        describe('POST:', () => {
+            it('Returns a 201 status', () => {
+                return request(app)
+                    .post('/api/articles')
+                    .send({
+                        title: 'Test #2',
+                        topic: 'test',
+                        blurb: 'blurb',
+                        body: 'body'
+                    })
+                    .expect(201)
+            })
+            it('Correctly adds the article to the database', () => {
+                return request(app)
+                    .post('/api/articles')
+                    .send({
+                        title: 'Test #2',
+                        topic: 'test',
+                        blurb: 'blurb',
+                        body: 'body'
+                    })
+                    .expect(201)
+                    .then(() => {
+                        return request(app)
+                            .get('/api/articles/3')
+                            .expect(200)
+                            .then(({ body: { article } }) => {
+                                expect(article.title).to.equal('Test #2')
+                            })
+                    })
+            })
+            it('Returns a copy of the newly inserted article', () => {
+                return request(app)
+                    .post('/api/articles')
+                    .send({
+                        title: 'Test #2',
+                        topic: 'test',
+                        blurb: 'blurb',
+                        body: 'body'
+                    })
+                    .expect(201)
+                    .then(({ body: { article } }) => {
+                        expect(article.title).to.equal('Test #2')
+                        expect(article.blurb).to.equal('blurb')
+                        expect(article.body).to.equal('body')
+                        expect(article.article_id).to.equal(3)
+                        expect(article.topic).to.equal('test')
+                        expect(article).to.include.keys('date')
+                    })
+
+            })
+        })
     })
     describe('/articles/:article_id', () => {
         describe('GET:', () => {
@@ -80,7 +132,7 @@ describe('/api', () => {
             })
         })
     })
-    describe.only('/topics', () => {
+    describe('/topics', () => {
         describe('GET:', () => {
             it('Returns a list of all topics', () => {
                 return request(app)

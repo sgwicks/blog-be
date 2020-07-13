@@ -1,6 +1,9 @@
 const app = require('express')()
-const port = 8080
+const port = 8090
 const apiRouter = require('./routers/api')
+const { json } = require('express')
+
+app.use(json())
 
 app.use('/api', apiRouter)
 

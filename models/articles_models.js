@@ -17,3 +17,9 @@ exports.fetchSingleArticle = (article_id) => {
         .where('article_id', article_id)
         .then(article => article)
 }
+
+exports.addNewArticle = (article) => {
+    return connection('articles')
+        .insert(article)
+        .returning('*')
+}
