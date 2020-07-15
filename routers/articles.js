@@ -7,6 +7,8 @@ articlesRouter.route('/')
     .post(postNewArticle)
     .all(handle405Errors)
 
-articlesRouter.route('/:article_id').get(getArticleById)
+articlesRouter.route('/:article_id')
+    .get(getArticleById)
+    .all(handle405Errors)
 
 module.exports = articlesRouter

@@ -132,7 +132,7 @@ describe('/api', () => {
                 })
             })
         })
-        describe.only('ERROR:', () => {
+        describe('ERROR:', () => {
             it('Returns 405 on methods not allowed', () => {
                 return request(app)
                     .del('/api/articles')
@@ -167,6 +167,16 @@ describe('/api', () => {
                     .then(({ body: { article } }) => {
                         expect(article.article_id).to.equal(2)
                         expect(article.title).to.equal('Day 5: Grunt Work')
+                    })
+            })
+        })
+        describe.only('ERROR:', () => {
+            it('Returns 405 on methods not allowed', () => {
+                return request(app)
+                    .post('/api/articles/1')
+                    .expect(405)
+                    .then(({ body: { msg } }) => {
+                        expect(msg).to.equal('Method not allowed')
                     })
             })
         })
