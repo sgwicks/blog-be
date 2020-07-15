@@ -1,5 +1,6 @@
 const { fetchAllArticles, fetchSingleArticle, addNewArticle } = require('../models/articles_models')
 const user = require('../user')
+const { handle404Errors } = require('../errors')
 const masterPassword = user.password
 
 exports.getAllArticles = (req, res, next) => {
@@ -12,7 +13,11 @@ exports.getAllArticles = (req, res, next) => {
 exports.getArticleById = (req, res, next) => {
     const { article_id } = req.params
     return fetchSingleArticle(article_id)
-        .then(([article]) => res.status(200).send({ article }))
+        .then(([article]) => {
+            return article
+                ? res.status(200).send({ article })
+                : handle404Errors(req, res, next)
+        })
         .catch(err => next(err))
 }
 

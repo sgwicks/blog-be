@@ -178,10 +178,18 @@ describe('/api', () => {
             })
         })
     })
-    describe.only('ERROR:', () => {
+    describe('ERROR:', () => {
         it('Returns 404 when url doesn\'t exist', () => {
             return request(app)
                 .get('/banana')
+                .expect(404)
+                .then(({ body: { msg } }) => {
+                    expect(msg).to.equal('Route does not exist')
+                })
+        })
+        it.only('Returns 404 when article_id does not exist', () => {
+            return request(app)
+                .get('/api/articles/333')
                 .expect(404)
                 .then(({ body: { msg } }) => {
                     expect(msg).to.equal('Route does not exist')
