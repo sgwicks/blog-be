@@ -1,4 +1,6 @@
 const { fetchAllArticles, fetchSingleArticle, addNewArticle } = require('../models/articles_models')
+const user = require('../user')
+const masterPassword = user.password
 
 exports.getAllArticles = (req, res) => {
     return fetchAllArticles()
@@ -13,7 +15,9 @@ exports.getArticleById = (req, res) => {
 }
 
 exports.postNewArticle = (req, res) => {
-    const article = req.body
-    return addNewArticle(article)
-        .then(([article]) => res.status(201).send({ article }))
+    const { article, password } = req.body
+    return password === masterPassword
+        ? addNewArticle(article)
+            .then(([article]) => res.status(201).send({ article }))
+        : res.status(403).send({ msg: 'Request denied, incorrect password' })
 }

@@ -2,6 +2,7 @@ const { expect } = require('chai')
 const request = require('supertest')
 const app = require('../app')
 const connection = require('../db/connection')
+const { password } = require('../user')
 
 beforeEach(() => connection.seed.run())
 after(() => connection.destroy())
@@ -56,10 +57,13 @@ describe('/api', () => {
                 return request(app)
                     .post('/api/articles')
                     .send({
-                        title: 'Test #2',
-                        topic: 'test',
-                        blurb: 'blurb',
-                        body: 'body'
+                        article: {
+                            title: 'Test #2',
+                            topic: 'test',
+                            blurb: 'blurb',
+                            body: 'body'
+                        },
+                        password
                     })
                     .expect(201)
             })
@@ -67,10 +71,13 @@ describe('/api', () => {
                 return request(app)
                     .post('/api/articles')
                     .send({
-                        title: 'Test #2',
-                        topic: 'test',
-                        blurb: 'blurb',
-                        body: 'body'
+                        article: {
+                            title: 'Test #2',
+                            topic: 'test',
+                            blurb: 'blurb',
+                            body: 'body'
+                        },
+                        password
                     })
                     .expect(201)
                     .then(() => {
@@ -86,10 +93,13 @@ describe('/api', () => {
                 return request(app)
                     .post('/api/articles')
                     .send({
-                        title: 'Test #2',
-                        topic: 'test',
-                        blurb: 'blurb',
-                        body: 'body'
+                        article: {
+                            title: 'Test #2',
+                            topic: 'test',
+                            blurb: 'blurb',
+                            body: 'body'
+                        },
+                        password
                     })
                     .expect(201)
                     .then(({ body: { article } }) => {
@@ -101,6 +111,25 @@ describe('/api', () => {
                         expect(article).to.include.keys('date')
                     })
 
+            })
+        })
+        describe('ERROR:', () => {
+            it('Returns 403 when password is wrong', () => {
+                return request(app)
+                    .post('/api/articles')
+                    .send({
+                        article: {
+                            title: 'title',
+                            body: 'body',
+                            blurb: 'blurb',
+                            topic: 'test'
+                        },
+                        password: 'password'
+                    })
+                    .expect(403)
+                    .then(({ body: { msg } }) => {
+                        expect(msg).to.equal('Request denied, incorrect password')
+                    })
             })
         })
     })
