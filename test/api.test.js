@@ -132,6 +132,16 @@ describe('/api', () => {
                 })
             })
         })
+        describe.only('ERROR:', () => {
+            it('Returns 405 on methods not allowed', () => {
+                return request(app)
+                    .del('/api/articles')
+                    .expect(405)
+                    .then(({ body: { msg } }) => {
+                        expect(msg).to.equal('Method not allowed')
+                    })
+            })
+        })
     })
     describe('/articles/:article_id', () => {
         describe('GET:', () => {
@@ -195,7 +205,7 @@ describe('/api', () => {
                     expect(msg).to.equal('Route does not exist')
                 })
         })
-        it.only('Returns 405 on methods not allowed', () => {
+        it('Returns 405 on methods not allowed', () => {
             return request(app)
                 .post('/api')
                 .expect(405)
