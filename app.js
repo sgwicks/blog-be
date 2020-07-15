@@ -10,6 +10,8 @@ app.use('/api', apiRouter)
 
 app.all('/*', handle404Errors)
 
+// app.use()
+
 app.listen(port, () => console.log(`Listening on http://localhost:${port}`))
 
 module.exports = app

@@ -187,12 +187,20 @@ describe('/api', () => {
                     expect(msg).to.equal('Route does not exist')
                 })
         })
-        it.only('Returns 404 when article_id does not exist', () => {
+        it('Returns 404 when article_id does not exist', () => {
             return request(app)
                 .get('/api/articles/333')
                 .expect(404)
                 .then(({ body: { msg } }) => {
                     expect(msg).to.equal('Route does not exist')
+                })
+        })
+        it.only('Returns 405 on methods not allowed', () => {
+            return request(app)
+                .post('/api')
+                .expect(405)
+                .then(({ body: { msg } }) => {
+                    expect(msg).to.equal('Method not allowed')
                 })
         })
     })
