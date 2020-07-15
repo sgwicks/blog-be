@@ -170,7 +170,7 @@ describe('/api', () => {
                     })
             })
         })
-        describe.only('ERROR:', () => {
+        describe('ERROR:', () => {
             it('Returns 405 on methods not allowed', () => {
                 return request(app)
                     .post('/api/articles/1')
@@ -194,6 +194,16 @@ describe('/api', () => {
                             topic: 'test',
                             description: 'test blogs'
                         })
+                    })
+            })
+        })
+        describe('ERROR:', () => {
+            it('Returns 405 on methods not allowed', () => {
+                return request(app)
+                    .del('/api/topics')
+                    .expect(405)
+                    .then(({ body: { msg } }) => {
+                        expect(msg).to.equal('Method not allowed')
                     })
             })
         })
