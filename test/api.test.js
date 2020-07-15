@@ -112,24 +112,24 @@ describe('/api', () => {
                     })
 
             })
-        })
-        describe('ERROR:', () => {
-            it('Returns 403 when password is wrong', () => {
-                return request(app)
-                    .post('/api/articles')
-                    .send({
-                        article: {
-                            title: 'title',
-                            body: 'body',
-                            blurb: 'blurb',
-                            topic: 'test'
-                        },
-                        password: 'password'
-                    })
-                    .expect(403)
-                    .then(({ body: { msg } }) => {
-                        expect(msg).to.equal('Request denied, incorrect password')
-                    })
+            describe('ERROR:', () => {
+                it('Returns 403 when password is wrong', () => {
+                    return request(app)
+                        .post('/api/articles')
+                        .send({
+                            article: {
+                                title: 'title',
+                                body: 'body',
+                                blurb: 'blurb',
+                                topic: 'test'
+                            },
+                            password: 'password'
+                        })
+                        .expect(403)
+                        .then(({ body: { msg } }) => {
+                            expect(msg).to.equal('Request denied, incorrect password')
+                        })
+                })
             })
         })
     })
@@ -176,6 +176,16 @@ describe('/api', () => {
                         })
                     })
             })
+        })
+    })
+    describe.only('ERROR:', () => {
+        it('Returns 404 when url doesn\'t exist', () => {
+            return request(app)
+                .get('/banana')
+                .expect(404)
+                .then(({ body: { msg } }) => {
+                    expect(msg).to.equal('Route does not exist')
+                })
         })
     })
 })
