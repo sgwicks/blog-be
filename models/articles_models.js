@@ -19,12 +19,19 @@ exports.fetchAllArticles = (query) => {
 
 exports.fetchSingleArticle = (article_id) => {
     return connection('articles')
-        .where('article_id', article_id)
+        .where({ article_id })
         .then(article => article)
 }
 
 exports.addNewArticle = (article) => {
     return connection('articles')
         .insert(article)
+        .returning('*')
+}
+
+exports.updateArticle = (article_id, article) => {
+    return connection('articles')
+        .where({ article_id })
+        .update(article)
         .returning('*')
 }

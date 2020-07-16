@@ -1,4 +1,4 @@
-const { fetchAllArticles, fetchSingleArticle, addNewArticle } = require('../models/articles_models')
+const { fetchAllArticles, fetchSingleArticle, addNewArticle, updateArticle } = require('../models/articles_models')
 const user = require('../user')
 const { handle404Errors, handle403Errors } = require('../errors')
 const masterPassword = user.password
@@ -30,4 +30,12 @@ exports.postNewArticle = (req, res, next) => {
             .then(([article]) => res.status(201).send({ article }))
             .catch(err => next(err))
         : handle403Errors(req, res, next)
+}
+
+exports.patchArticle = (req, res, next) => {
+    const { article_id } = req.params
+    const { article } = req.body
+    return updateArticle(article_id, article)
+        .then(([article]) => res.status(200).send({ article }))
+        .catch(err => next(err))
 }

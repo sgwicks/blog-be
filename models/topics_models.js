@@ -21,3 +21,4 @@ exports.fetchSingleTopic = (topic) => {
     return connection('topics')
         .where({ topic })
 }
+

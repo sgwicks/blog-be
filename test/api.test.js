@@ -220,6 +220,47 @@ describe('/api', () => {
                 })
             })
         })
+        describe.only('PUT:', () => {
+            it('Can update an existing article', () => {
+                return request(app)
+                    .patch('/api/articles/1')
+                    .send({
+                        password,
+                        article: {
+                            title: 'new title',
+                            body: 'new body',
+                            blurb: 'new blurb'
+                        }
+                    })
+                    .expect(200)
+                    .then(({ body: { article } }) => {
+                        expect(article.title).to.equal('new title')
+                        expect(article.body).to.equal('new body')
+                        expect(article.blurb).to.equal('new blurb')
+                    })
+            })
+            it('Updates the article in the database', () => {
+                return request(app)
+                    .patch('/api/articles/1')
+                    .send({
+                        password,
+                        article: {
+                            title: 'new title',
+                            body: 'new body',
+                            blurb: 'new blurb'
+                        }
+                    })
+                    .then(() => {
+                        return request(app)
+                            .get('/api/articles/1')
+                            .then(({ body: { article } }) => {
+                                expect(article.title).to.equal('new title')
+                                expect(article.body).to.equal('new body')
+                                expect(article.blurb).to.equal('new blurb')
+                            })
+                    })
+            })
+        })
         describe('ERROR:', () => {
             it('Returns 405 on methods not allowed', () => {
                 return request(app)
