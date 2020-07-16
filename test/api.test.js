@@ -58,6 +58,16 @@ describe('/api', () => {
                         expect(articles).to.have.length(1)
                     })
             })
+            describe('ERROR:', () => {
+                it('Returns 400 when given an invalid query', () => {
+                    return request(app)
+                        .get('/api/articles?option=invalid')
+                        .expect(400)
+                        .then(({ body: { msg } }) => {
+                            expect(msg).to.equal('Invalid request, unhandled data in request')
+                        })
+                })
+            })
         })
         describe('POST:', () => {
             it('Returns a 201 status', () => {
@@ -181,7 +191,7 @@ describe('/api', () => {
                         })
                         .expect(400)
                         .then(({ body: { msg } }) => {
-                            expect(msg).to.equal('Invalid request, unhandled data in article')
+                            expect(msg).to.equal('Invalid request, unhandled data in request')
                         })
                 })
             })
