@@ -347,6 +347,24 @@ describe('/api', () => {
                 })
             })
         })
+        describe.only('PUT:', () => {
+            it('Accepts a new topic description', () => {
+                return request(app)
+                    .patch('/api/topics/test')
+                    .send({
+                        password,
+                        topic: {
+                            topic: 'test',
+                            description: 'This is a new description'
+                        }
+                    })
+                    .expect(200)
+                    .then(({ body: { topic } }) => {
+                        expect(topic.topic).to.equal('test')
+                        expect(topic.description).to.equal('This is a new description')
+                    })
+            })
+        })
         describe('ERROR:', () => {
             it('Returns 405 on methods not allowed', () => {
                 return request(app)

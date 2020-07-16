@@ -9,3 +9,10 @@ exports.addTopic = (topic) => {
         .insert(topic)
         .returning('*')
 }
+
+exports.updateTopic = (topic, newTopic) => {
+    return connection('topics')
+        .where({ topic })
+        .update(newTopic)
+        .returning('*')
+}

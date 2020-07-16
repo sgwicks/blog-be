@@ -1,4 +1,4 @@
-const { fetchTopics, addTopic } = require("../models/topics_models")
+const { fetchTopics, addTopic, updateTopic } = require("../models/topics_models")
 const { password } = require('../user')
 const { handle403Errors } = require("../errors")
 const masterPassword = password
@@ -15,4 +15,12 @@ exports.postNewTopic = (req, res, next) => {
         ? addTopic(topic)
             .then(([topic]) => res.status(201).send({ topic }))
         : handle403Errors(req, res, next)
+}
+
+exports.patchTopic = (req, res, next) => {
+    const { topic } = req.params
+    const newTopic = req.body.topic
+    return updateTopic(topic, newTopic)
+        .then(([topic]) => res.status(200).send({ topic }))
+
 }
