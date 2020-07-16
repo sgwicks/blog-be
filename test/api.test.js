@@ -260,7 +260,7 @@ describe('/api', () => {
                             })
                     })
             })
-            describe.only('ERROR:', () => {
+            describe('ERROR:', () => {
                 it('Returns 403 when password is wrong', () => {
                     return request(app)
                         .patch('/api/articles/1')

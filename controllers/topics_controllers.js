@@ -33,10 +33,8 @@ exports.getSingleTopic = (req, res, next) => {
     const { topic } = req.params
     return fetchSingleTopic(topic)
         .then(([topic]) => {
-            return topic
-                ? res.status(200).send({ topic })
-                    .catch(err => next(err))
-                : handle404Errors(req, res, next)
+            return topic ? res.status(200).send({ topic }) : handle404Errors(req, res, next)
         })
+        .catch(err => next(err))
 
 }
