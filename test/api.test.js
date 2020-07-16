@@ -68,7 +68,7 @@ describe('/api', () => {
                         expect(articles).to.have.length(3)
                     })
             })
-            it.only('Can sort by date', () => {
+            it('Can sort by date', () => {
                 return request(app)
                     .get('/api/articles?sort_by=date')
                     .expect(200)
@@ -76,12 +76,20 @@ describe('/api', () => {
                         expect(articles).to.be.ascendingBy('date')
                     })
             })
-            it.only('Can take a sort order query', () => {
+            it('Can take a sort order query', () => {
                 return request(app)
                     .get('/api/articles?sort_by=date&order=desc')
                     .expect(200)
                     .then(({ body: { articles } }) => {
                         expect(articles).to.be.descendingBy('date')
+                    })
+            })
+            it.only('Can take any column and order as a sort query', () => {
+                return request(app)
+                    .get('/api/articles?sort_by=title&order=asc')
+                    .expect(200)
+                    .then(({ body: { articles } }) => {
+                        expect(articles).to.be.ascendingBy('title')
                     })
             })
         })
