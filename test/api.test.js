@@ -348,7 +348,7 @@ describe('/api', () => {
             })
         })
         describe('/topics/:topic', () => {
-            describe.only('GET:', () => {
+            describe('GET:', () => {
                 it('Returns the topic object', () => {
                     return request(app)
                         .get('/api/topics/test')
@@ -422,9 +422,13 @@ describe('/api', () => {
                             expect(msg).to.equal('Method not allowed')
                         })
                 })
-                xit('Returns 404 on invalid topic', () => {
+                it('Returns 404 on invalid topic', () => {
                     return request(app)
-
+                        .get('/api/topics/banana')
+                        .expect(404)
+                        .then(({ body: { msg } }) => {
+                            expect(msg).to.equal('Route does not exist')
+                        })
                 })
             })
         })
