@@ -1,3 +1,7 @@
+exports.handle403Errors = (req, res, next) => {
+    return res.status(403).send({ msg: 'Request denied, incorrect password' })
+}
+
 exports.handle404Errors = (req, res, next) => {
     return res.status(404).send({ msg: 'Route does not exist' })
 }

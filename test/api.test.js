@@ -84,7 +84,7 @@ describe('/api', () => {
                         expect(articles).to.be.descendingBy('date')
                     })
             })
-            it.only('Can take any column and order as a sort query', () => {
+            it('Can take any column and order as a sort query', () => {
                 return request(app)
                     .get('/api/articles?sort_by=title&order=asc')
                     .expect(200)
@@ -254,7 +254,7 @@ describe('/api', () => {
                     .expect(200)
                     .then(({ body: { article } }) => {
                         expect(article.article_id).to.equal(2)
-                        expect(article.title).to.equal('Day 5: Grunt Work')
+                        expect(article.title).to.equal('day 5: Grunt Work')
                     })
             })
         })
@@ -291,6 +291,60 @@ describe('/api', () => {
                             description: 'test blogs'
                         })
                     })
+            })
+        })
+        describe('POST:', () => {
+            it('Accepts a new topic', () => {
+                return request(app)
+                    .post('/api/topics')
+                    .send({
+                        password,
+                        topic: {
+                            topic: 'news',
+                            description: 'This is my latest news'
+                        }
+                    })
+                    .expect(201)
+                    .then(({ body: { topic } }) => {
+                        expect(topic.topic).to.equal('news')
+                        expect(topic.description).to.equal('This is my latest news')
+                    })
+            })
+            it('New topic is added to the database', () => {
+                return request(app)
+                    .post('/api/topics')
+                    .send({
+                        password,
+                        topic: {
+                            topic: 'news',
+                            description: 'This is my news blog'
+                        }
+                    })
+                    .then(() => {
+                        return request(app)
+                            .get('/api/topics')
+                            .then(({ body: { topics } }) => {
+                                expect(topics).to.have.length(3)
+                                expect(topics[2].topic).to.equal('news')
+                            })
+                    })
+            })
+            describe('ERROR:', () => {
+                it('Returns error if password is incorrect', () => {
+                    return request(app)
+                        .post('/api/topics')
+                        .send({
+                            password: 'password',
+                            topic: {
+                                topic: 'news',
+                                description: 'news'
+                            }
+                        })
+                        .expect(403)
+                        .then(({ body: { msg } }) => {
+                            expect(msg).to.equal('Request denied, incorrect password')
+                        })
+                })
             })
         })
         describe('ERROR:', () => {

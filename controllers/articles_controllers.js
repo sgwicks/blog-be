@@ -1,6 +1,6 @@
 const { fetchAllArticles, fetchSingleArticle, addNewArticle } = require('../models/articles_models')
 const user = require('../user')
-const { handle404Errors } = require('../errors')
+const { handle404Errors, handle403Errors } = require('../errors')
 const masterPassword = user.password
 
 exports.getAllArticles = (req, res, next) => {
@@ -29,5 +29,5 @@ exports.postNewArticle = (req, res, next) => {
         ? addNewArticle(article)
             .then(([article]) => res.status(201).send({ article }))
             .catch(err => next(err))
-        : res.status(403).send({ msg: 'Request denied, incorrect password' })
+        : handle403Errors(req, res, next)
 }
