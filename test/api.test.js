@@ -1,9 +1,11 @@
+const chai = require('chai')
 const { expect } = require('chai')
 const request = require('supertest')
 const app = require('../app')
 const connection = require('../db/connection')
 const { password } = require('../user')
 
+chai.use(require('chai-sorted'))
 beforeEach(() => connection.seed.run())
 after(() => connection.destroy())
 
@@ -58,15 +60,21 @@ describe('/api', () => {
                         expect(articles).to.have.length(1)
                     })
             })
-            describe('ERROR:', () => {
-                it('Returns 400 when given an invalid query', () => {
-                    return request(app)
-                        .get('/api/articles?option=invalid')
-                        .expect(400)
-                        .then(({ body: { msg } }) => {
-                            expect(msg).to.equal('Invalid request, unhandled data in request')
-                        })
-                })
+            it('Ignores invalid queries', () => {
+                return request(app)
+                    .get('/api/articles?option=invalid')
+                    .expect(200)
+                    .then(({ body: { articles } }) => {
+                        expect(articles).to.have.length(3)
+                    })
+            })
+            it('Can sort by date', () => {
+                return request(app)
+                    .get('/api/articles?sort_by=date')
+                    .expect(200)
+                    .then(({ body: { articles } }) => {
+                        expect(articles).to.be.sortedBy('date')
+                    })
             })
         })
         describe('POST:', () => {
