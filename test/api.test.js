@@ -130,6 +130,20 @@ describe('/api', () => {
                             expect(msg).to.equal('Request denied, incorrect password')
                         })
                 })
+                it.only('Returns 400 when missing data', () => {
+                    return request(app)
+                        .post('/api/articles')
+                        .send({
+                            password,
+                            article: {
+                                body: 'body'
+                            }
+                        })
+                        .expect(400)
+                        .then(({ body: { msg } }) => {
+                            expect(msg).to.equal('Invalid request, missing data')
+                        })
+                })
             })
         })
         describe('ERROR:', () => {
