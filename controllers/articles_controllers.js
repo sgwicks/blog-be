@@ -23,6 +23,7 @@ exports.getArticleById = (req, res, next) => {
 
 exports.postNewArticle = (req, res, next) => {
     const { article, password } = req.body
+    if (!article) return res.status(400).send({ msg: 'Invalid request, article key is missing' })
     return password === masterPassword
         ? addNewArticle(article)
             .then(([article]) => res.status(201).send({ article }))

@@ -130,7 +130,7 @@ describe('/api', () => {
                             expect(msg).to.equal('Request denied, incorrect password')
                         })
                 })
-                it.only('Returns 400 when missing data', () => {
+                it('Returns 400 when missing data', () => {
                     return request(app)
                         .post('/api/articles')
                         .send({
@@ -142,6 +142,21 @@ describe('/api', () => {
                         .expect(400)
                         .then(({ body: { msg } }) => {
                             expect(msg).to.equal('Invalid request, missing data')
+                        })
+                })
+                it.only('Returns 400 when request body is missing article key', () => {
+                    return request(app)
+                        .post('/api/articles')
+                        .send({
+                            password,
+                            title: 'title',
+                            body: 'body',
+                            blurb: 'blurb',
+                            topic: 5
+                        })
+                        .expect(400)
+                        .then(({ body: { msg } }) => {
+                            expect(msg).to.equal('Invalid request, article key is missing')
                         })
                 })
             })
