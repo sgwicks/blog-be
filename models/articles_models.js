@@ -1,6 +1,6 @@
 const connection = require('../db/connection')
 
-exports.fetchAllArticles = () => {
+exports.fetchAllArticles = (query) => {
     return connection('articles')
         .select([
             'articles.article_id',
@@ -9,6 +9,7 @@ exports.fetchAllArticles = () => {
             'articles.topic',
             'articles.date'
         ])
+        .where(query)
         .then(articles => articles)
 }
 

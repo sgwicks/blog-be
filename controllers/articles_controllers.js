@@ -4,7 +4,8 @@ const { handle404Errors } = require('../errors')
 const masterPassword = user.password
 
 exports.getAllArticles = (req, res, next) => {
-    return fetchAllArticles()
+    const { query } = req
+    return fetchAllArticles(query)
         .then(articles => res.status(200).send({ articles }))
         .catch(err => next(err))
 

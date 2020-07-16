@@ -33,10 +33,9 @@ describe('/api', () => {
                     .expect(200)
                     .then(({ body: { articles } }) => {
                         expect(articles).to.be.an('array')
-                        expect(articles).to.have.length(2)
+                        expect(articles).to.have.length(3)
                     })
             })
-
             it('Articles have all keys except body', () => {
                 return request(app)
                     .get('/api/articles')
@@ -49,6 +48,14 @@ describe('/api', () => {
                             'blurb',
                             'date'
                         )
+                    })
+            })
+            it('Can filter by topic', () => {
+                return request(app)
+                    .get('/api/articles?topic=other')
+                    .expect(200)
+                    .then(({ body: { articles } }) => {
+                        expect(articles).to.have.length(1)
                     })
             })
         })
@@ -82,7 +89,7 @@ describe('/api', () => {
                     .expect(201)
                     .then(() => {
                         return request(app)
-                            .get('/api/articles/3')
+                            .get('/api/articles/4')
                             .expect(200)
                             .then(({ body: { article } }) => {
                                 expect(article.title).to.equal('Test #2')
@@ -106,7 +113,7 @@ describe('/api', () => {
                         expect(article.title).to.equal('Test #2')
                         expect(article.blurb).to.equal('blurb')
                         expect(article.body).to.equal('body')
-                        expect(article.article_id).to.equal(3)
+                        expect(article.article_id).to.equal(4)
                         expect(article.topic).to.equal('test')
                         expect(article).to.include.keys('date')
                     })
@@ -244,7 +251,7 @@ describe('/api', () => {
                     .expect(200)
                     .then(({ body: { topics } }) => {
                         expect(topics).to.be.an('array')
-                        expect(topics).to.have.length(1)
+                        expect(topics).to.have.length(2)
                         expect(topics[0]).to.eql({
                             topic: 'test',
                             description: 'test blogs'
