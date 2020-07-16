@@ -226,6 +226,14 @@ describe('/api', () => {
                         expect(msg).to.equal('Method not allowed')
                     })
             })
+            it('Returns 400 when invalid article id', () => {
+                return request(app)
+                    .get('/api/articles/invalid')
+                    .expect(400)
+                    .then(({ body: { msg } }) => {
+                        expect(msg).to.equal('Invalid request, invalid article id')
+                    })
+            })
         })
     })
     describe('/topics', () => {
