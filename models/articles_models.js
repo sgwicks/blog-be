@@ -2,7 +2,7 @@ const connection = require('../db/connection')
 
 exports.fetchAllArticles = (query) => {
     let filter = {}
-    const { sort_by, topic } = query
+    const { sort_by, order, topic } = query
     if (topic) filter = { ...filter, topic }
     return connection('articles')
         .select([
@@ -13,7 +13,7 @@ exports.fetchAllArticles = (query) => {
             'articles.date'
         ])
         .where(filter)
-        .orderBy(sort_by || 'date')
+        .orderBy(sort_by || 'date', order || 'asc')
         .then(articles => articles)
 }
 

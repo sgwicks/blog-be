@@ -3,7 +3,8 @@ module.exports = [
         title: "test blog #1",
         topic: 'test',
         blurb: 'This is a test blog',
-        body: 'This is the body of the test blog'
+        body: 'This is the body of the test blog',
+        date: '03/05/2019'
     },
     {
         title: 'Day 5: Grunt Work',

@@ -68,12 +68,20 @@ describe('/api', () => {
                         expect(articles).to.have.length(3)
                     })
             })
-            it('Can sort by date', () => {
+            it.only('Can sort by date', () => {
                 return request(app)
                     .get('/api/articles?sort_by=date')
                     .expect(200)
                     .then(({ body: { articles } }) => {
-                        expect(articles).to.be.sortedBy('date')
+                        expect(articles).to.be.ascendingBy('date')
+                    })
+            })
+            it.only('Can take a sort order query', () => {
+                return request(app)
+                    .get('/api/articles?sort_by=date&order=desc')
+                    .expect(200)
+                    .then(({ body: { articles } }) => {
+                        expect(articles).to.be.descendingBy('date')
                     })
             })
         })
