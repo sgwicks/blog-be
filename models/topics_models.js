@@ -16,3 +16,8 @@ exports.updateTopic = (topic, newTopic) => {
         .update(newTopic)
         .returning('*')
 }
+
+exports.fetchSingleTopic = (topic) => {
+    return connection('topics')
+        .where({ topic })
+}

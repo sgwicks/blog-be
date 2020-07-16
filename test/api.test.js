@@ -347,22 +347,85 @@ describe('/api', () => {
                 })
             })
         })
-        describe.only('PUT:', () => {
-            it('Accepts a new topic description', () => {
-                return request(app)
-                    .patch('/api/topics/test')
-                    .send({
-                        password,
-                        topic: {
-                            topic: 'test',
-                            description: 'This is a new description'
-                        }
+        describe('/topics/:topic', () => {
+            describe.only('GET:', () => {
+                it('Returns the topic object', () => {
+                    return request(app)
+                        .get('/api/topics/test')
+                        .expect(200)
+                        .then(({ body: { topic } }) => {
+                            expect(topic.topic).to.equal('test')
+                            expect(topic.description).to.equal('test blogs')
+                        })
+                })
+            })
+            describe('PUT:', () => {
+                it('Accepts a new topic description', () => {
+                    return request(app)
+                        .patch('/api/topics/test')
+                        .send({
+                            password,
+                            topic: {
+                                topic: 'test',
+                                description: 'This is a new description'
+                            }
+                        })
+                        .expect(200)
+                        .then(({ body: { topic } }) => {
+                            expect(topic.topic).to.equal('test')
+                            expect(topic.description).to.equal('This is a new description')
+                        })
+                })
+                it('Updates the topic in the database', () => {
+                    return request(app)
+                        .patch('/api/topics/test')
+                        .send({
+                            password,
+                            topic: {
+                                topic: 'test',
+                                description: 'This is the new description'
+                            }
+                        })
+                        .then(() => {
+                            return request(app)
+                                .get('/api/topics')
+                                .then(({ body: { topics } }) => {
+                                    expect(topics[1].topic).to.equal('test')
+                                    expect(topics[1].description).to.equal('This is the new description')
+                                })
+                        })
+                })
+                describe('ERROR:', () => {
+                    it('Returns 403 if password is incorrect', () => {
+                        return request(app)
+                            .patch('/api/topics/test')
+                            .send({
+                                password: 'password',
+                                topic: {
+                                    topic: 'test',
+                                    description: 'description'
+                                }
+                            })
+                            .expect(403)
+                            .then(({ body: { msg } }) => {
+                                expect(msg).to.equal('Request denied, incorrect password')
+                            })
                     })
-                    .expect(200)
-                    .then(({ body: { topic } }) => {
-                        expect(topic.topic).to.equal('test')
-                        expect(topic.description).to.equal('This is a new description')
-                    })
+                })
+            })
+            describe('ERROR:', () => {
+                it('Returns 405 on invalid methods', () => {
+                    return request(app)
+                        .del('/api/topics/test')
+                        .expect(405)
+                        .then(({ body: { msg } }) => {
+                            expect(msg).to.equal('Method not allowed')
+                        })
+                })
+                xit('Returns 404 on invalid topic', () => {
+                    return request(app)
+
+                })
             })
         })
         describe('ERROR:', () => {
