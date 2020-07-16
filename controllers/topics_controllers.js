@@ -14,6 +14,7 @@ exports.postNewTopic = (req, res, next) => {
     return password === masterPassword
         ? addTopic(topic)
             .then(([topic]) => res.status(201).send({ topic }))
+            .catch(err => next(err))
         : handle403Errors(req, res, next)
 }
 
@@ -24,6 +25,7 @@ exports.patchTopic = (req, res, next) => {
     return password === masterPassword
         ? updateTopic(topic, newTopic)
             .then(([topic]) => res.status(200).send({ topic }))
+            .catch(err => next(err))
         : handle403Errors(req, res, next)
 }
 
@@ -33,6 +35,7 @@ exports.getSingleTopic = (req, res, next) => {
         .then(([topic]) => {
             return topic
                 ? res.status(200).send({ topic })
+                    .catch(err => next(err))
                 : handle404Errors(req, res, next)
         })
 
