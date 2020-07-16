@@ -144,7 +144,7 @@ describe('/api', () => {
                             expect(msg).to.equal('Invalid request, missing data')
                         })
                 })
-                it.only('Returns 400 when request body is missing article key', () => {
+                it('Returns 400 when request body is missing article key', () => {
                     return request(app)
                         .post('/api/articles')
                         .send({
@@ -157,6 +157,24 @@ describe('/api', () => {
                         .expect(400)
                         .then(({ body: { msg } }) => {
                             expect(msg).to.equal('Invalid request, article key is missing')
+                        })
+                })
+                it('Returns 400 when extra data is in article', () => {
+                    return request(app)
+                        .post('/api/articles')
+                        .send({
+                            password,
+                            article: {
+                                title: 'title',
+                                body: 'body',
+                                blurb: 'blurb',
+                                topic: 'test',
+                                extra: 'data'
+                            }
+                        })
+                        .expect(400)
+                        .then(({ body: { msg } }) => {
+                            expect(msg).to.equal('Invalid request, unhandled data in article')
                         })
                 })
             })

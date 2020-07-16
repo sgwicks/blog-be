@@ -8,6 +8,7 @@ exports.handle405Errors = (req, res, next) => {
 
 exports.handle400Errors = (err, req, res, next) => {
     if (err.code === "23502") return res.status(400).send({ msg: 'Invalid request, missing data' })
+    if (err.code === "42703") return res.status(400).send({ msg: 'Invalid request, unhandled data in article' })
     console.log(err)
     return res.status(400).send({ msg: 'Something unexpected went wrong' })
 }
