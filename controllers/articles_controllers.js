@@ -34,8 +34,10 @@ exports.postNewArticle = (req, res, next) => {
 
 exports.patchArticle = (req, res, next) => {
     const { article_id } = req.params
-    const { article } = req.body
-    return updateArticle(article_id, article)
-        .then(([article]) => res.status(200).send({ article }))
-        .catch(err => next(err))
+    const { article, password } = req.body
+    return password === masterPassword
+        ? updateArticle(article_id, article)
+            .then(([article]) => res.status(200).send({ article }))
+            .catch(err => next(err))
+        : handle403Errors(req, res, next)
 }

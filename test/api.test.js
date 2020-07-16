@@ -220,7 +220,7 @@ describe('/api', () => {
                 })
             })
         })
-        describe.only('PUT:', () => {
+        describe('PUT:', () => {
             it('Can update an existing article', () => {
                 return request(app)
                     .patch('/api/articles/1')
@@ -259,6 +259,37 @@ describe('/api', () => {
                                 expect(article.blurb).to.equal('new blurb')
                             })
                     })
+            })
+            describe.only('ERROR:', () => {
+                it('Returns 403 when password is wrong', () => {
+                    return request(app)
+                        .patch('/api/articles/1')
+                        .send({
+                            password: 'password',
+                            article: {
+                                title: 'new title'
+                            }
+                        })
+                        .expect(403)
+                        .then(({ body: { msg } }) => {
+                            expect(msg).to.equal('Request denied, incorrect password')
+                        })
+                })
+                it('Returns 400 when topic is invalid', () => {
+                    return request(app)
+                        .patch('/api/articles/2')
+                        .send({
+                            password,
+                            article: {
+                                title: 'new title',
+                                topic: 'banana'
+                            }
+                        })
+                        .expect(400)
+                        .then(({ body: { msg } }) => {
+                            expect(msg).to.equal('Invalid request, invalid data')
+                        })
+                })
             })
         })
         describe('ERROR:', () => {
